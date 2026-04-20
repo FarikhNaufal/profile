@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
             
             <img 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCT1Wsb01iNwVxgcCukxemtNIs_YOA3LbaAM5qIpqyYTv8GPxD7Lw9WdFn_5EERjr3VZ2Doaad69J4iPgeXGECKu_Dk3_jEgmpClJpxqzkn-lq8p96juFQHcq6uSRN-q7C-Ud_O51LE35iO8HgPf9t0Bvo0mrWB_YGa1CgIy_TVgJihYm8OblVNmB_aOsCTUK42E0txIys9dNCwIB9Of7DLdDE1ceF_qVxgKhPtcQTgc-dqpKtNOotsytpR6DUK_bnWHS2kRsmM5u0" 
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0w-SyPSQqXaHxDdh4oYxNMu3WoCeR9YzIog&s" 
               alt="Muhammad Farikh Naufal Tajuddin" 
               className="w-full h-full object-cover opacity-90 mix-blend-luminosity grayscale group-hover:grayscale-0 group-hover:mix-blend-normal transition-all duration-1000 scale-105 group-hover:scale-100" 
             />
