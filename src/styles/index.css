@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Base Colors - Light Theme */
+    --surface: #ffffff;
+    --surface-dim: #f8fafc;
+    --surface-bright: #ffffff;
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #f8fafc;
+    --surface-container: #f1f5f9;
+    --surface-container-high: #e2e8f0;
+    --surface-container-highest: #cbd5e1;
+
+    --on-surface: #0f172a;
+    --on-surface-variant: #475569;
+    --outline: #94a3b8;
+    --outline-variant: #e2e8f0;
+
+    --primary: #008394;
+    --primary-dim: #006978;
+    --primary-container: #cffafe;
+    --on-primary: #ffffff;
+    --on-primary-container: #083344;
+
+    --secondary: #7c3aed;
+    --secondary-dim: #6d28d9;
+    --secondary-container: #ede9fe;
+    --on-secondary: #ffffff;
+    --on-secondary-container: #1e1b4b;
+
+    --tertiary: #db2777;
+    --tertiary-container: #fce7f3;
+    --on-tertiary: #ffffff;
+    --on-tertiary-container: #500724;
+
+    --text-gradient: linear-gradient(135deg, #008394, #7c3aed);
+    --grid-opacity: 0.1;
+
+    color-scheme: light dark;
+  }
+
+  .dark {
+    /* Base Colors - Dark Theme */
+    --surface: #0e0e0f;
+    --surface-dim: #0e0e0f;
+    --surface-bright: #2c2c2d;
+    --surface-container-lowest: #000000;
+    --surface-container-low: #131314;
+    --surface-container: #1a191b;
+    --surface-container-high: #201f21;
+    --surface-container-highest: #262627;
+
+    --on-surface: #ffffff;
+    --on-surface-variant: #adaaab;
+    --outline: #767576;
+    --outline-variant: #484849;
+
+    --primary: #81e9ff;
+    --primary-dim: #00d1ee;
+    --primary-container: #00e0ff;
+    --on-primary: #005561;
+    --on-primary-container: #004b57;
+
+    --secondary: #c47fff;
+    --secondary-dim: #a533ff;
+    --secondary-container: #8c00e5;
+    --on-secondary: #340059;
+    --on-secondary-container: #fff5ff;
+
+    --tertiary: #ffa5d9;
+    --tertiary-container: #ff8ed2;
+    --on-tertiary: #701455;
+    --on-tertiary-container: #63054a;
+
+    --text-gradient: linear-gradient(135deg, #81e9ff, #c47fff);
+    --grid-opacity: 0.05;
+  }
+
+  body {
+    @apply bg-surface text-on-surface font-body antialiased transition-colors duration-300;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline;
+  }
+}
+
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-dim: var(--primary-dim);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
+  --color-on-primary-container: var(--on-primary-container);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-dim: var(--secondary-dim);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary: var(--on-secondary);
+  --color-on-secondary-container: var(--on-secondary-container);
+
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-on-tertiary-container: var(--on-tertiary-container);
+
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--text-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, rgba(72, 72, 73, var(--grid-opacity)) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(72, 72, 73, var(--grid-opacity)) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .glass {
+    @apply backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
+    background-color: var(--surface-container-low);
+    opacity: 0.8;
+  }
+
+  .dark .glass {
+    @apply shadow-[0_8px_32px_0_rgba(99,102,241,0.1)];
+    background-color: rgba(255, 255, 255, 0.03);
+    opacity: 1;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-surface;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-outline-variant/30 rounded-full hover:bg-outline-variant/50 transition-colors;
+}
