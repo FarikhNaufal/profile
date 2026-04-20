@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import meImg from '../../assets/me.png';
 
 const Hero: React.FC = () => {
   return (
@@ -26,7 +27,7 @@ const Hero: React.FC = () => {
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
             
             <img 
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0w-SyPSQqXaHxDdh4oYxNMu3WoCeR9YzIog&s" 
+              src={meImg} 
               alt="Muhammad Farikh Naufal Tajuddin" 
               className="w-full h-full object-cover opacity-90 mix-blend-luminosity grayscale group-hover:grayscale-0 group-hover:mix-blend-normal transition-all duration-1000 scale-105 group-hover:scale-100" 
             />
