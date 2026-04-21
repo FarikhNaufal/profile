@@ -141,15 +141,35 @@
   }
 
   .glass {
-    @apply backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
+    /* Hardware acceleration on all platforms */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    
+    @apply shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
     background-color: var(--surface-container-low);
-    opacity: 0.8;
+    opacity: 0.95;
+
+    /* High-intensity blur only on desktop/large screens */
+    @media (min-width: 1024px) {
+      @apply backdrop-blur-xl;
+      opacity: 0.8;
+    }
+    
+    /* Subtle blur for smaller screens/mobile to ensure 60fps scrolling */
+    @media (max-width: 1023px) {
+      @apply backdrop-blur-md;
+    }
   }
 
   .dark .glass {
     @apply shadow-[0_8px_32px_0_rgba(99,102,241,0.1)];
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.05);
     opacity: 1;
+
+    @media (min-width: 1024px) {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
   }
 }
 

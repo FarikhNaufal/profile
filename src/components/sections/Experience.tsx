@@ -22,8 +22,8 @@ const Experience: React.FC = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col items-center mb-20 text-center">
           <motion.h2 
-            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-            whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="font-headline text-5xl font-bold tracking-tight text-on-surface mb-4"
@@ -47,6 +47,11 @@ const Experience: React.FC = () => {
 
 const ExperienceItem: React.FC<{ exp: typeof experiences[0], index: number }> = ({ exp, index }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isTouch, setIsTouch] = React.useState(false);
+  
+  React.useEffect(() => {
+    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
   
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -58,7 +63,7 @@ const ExperienceItem: React.FC<{ exp: typeof experiences[0], index: number }> = 
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (!cardRef.current || isTouch) return;
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -84,11 +89,17 @@ const ExperienceItem: React.FC<{ exp: typeof experiences[0], index: number }> = 
         rotateX,
         rotateY,
         transformStyle: "preserve-3d",
+        willChange: "transform"
       }}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
+      transition={{ 
+        type: isTouch ? "tween" : "spring",
+        ease: "easeOut",
+        duration: isTouch ? 0.4 : 0.6, 
+        delay: index * 0.1 
+      }}
       className="relative flex flex-col lg:grid lg:grid-cols-12 gap-8 items-start perspective-1000"
     >
       {/* Date/Period for desktop */}

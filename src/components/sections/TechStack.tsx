@@ -23,15 +23,25 @@ const techItems = [
 ];
 
 const TechStack: React.FC = () => {
+  const [isTouch, setIsTouch] = React.useState(false);
+  
+  React.useEffect(() => {
+    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
   return (
     <section id="stack" className="py-32 px-8 bg-surface relative">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-center mb-16 text-center">
           <motion.h2 
-            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-            whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
+            transition={{ 
+              type: isTouch ? "tween" : "spring",
+              ease: "easeOut",
+              duration: isTouch ? 0.4 : 0.8 
+            }}
             className="font-headline text-5xl font-bold tracking-tight text-on-surface mb-4"
           >
             Technical Arsenal
@@ -46,13 +56,14 @@ const TechStack: React.FC = () => {
           {techItems.map((item, index) => (
             <motion.div
               key={item.name}
-              initial={{ opacity: 0, y: 30, scale: 0.9, filter: 'blur(5px)' }}
-              whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ 
                 delay: index * 0.05,
-                duration: 0.5,
-                ease: "easeOut"
+                type: isTouch ? "tween" : "spring",
+                ease: "easeOut",
+                duration: isTouch ? 0.3 : 0.5
               }}
               whileHover={{ y: -10, scale: 1.05, transition: { duration: 0.2 } }}
               className="flex flex-col items-center justify-center p-8 bg-surface-container-low rounded-2xl hover:bg-surface-container-high transition-all border border-outline-variant/10 hover:border-primary/20 group cursor-default shadow-sm hover:shadow-xl"

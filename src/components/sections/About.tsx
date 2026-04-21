@@ -3,16 +3,26 @@ import { motion } from 'framer-motion';
 import { Code2, Database, Layout, Server } from 'lucide-react';
 
 const About: React.FC = () => {
+  const [isTouch, setIsTouch] = React.useState(false);
+  
+  React.useEffect(() => {
+    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
   return (
     <section id="about" className="py-32 px-8 bg-surface-container-low relative border-t border-outline-variant/10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
         {/* Sticky Header Column */}
         <div className="lg:col-span-4 lg:sticky lg:top-32">
           <motion.div
-            initial={{ opacity: 0, x: -30, filter: 'blur(10px)' }}
-            whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
+            transition={{ 
+              type: isTouch ? "tween" : "spring",
+              ease: "easeOut",
+              duration: isTouch ? 0.4 : 0.8 
+            }}
           >
             <h2 className="font-headline text-5xl font-bold tracking-tight text-on-surface mb-4">
               The Syntactic Layer
@@ -28,10 +38,14 @@ const About: React.FC = () => {
         {/* Content Column */}
         <div className="lg:col-span-8 flex flex-col gap-12">
           <motion.p 
-            initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-            whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
+            transition={{ 
+              type: isTouch ? "tween" : "spring",
+              ease: "easeOut",
+              duration: isTouch ? 0.4 : 0.8 
+            }}
             className="font-body text-2xl text-on-surface-variant leading-relaxed"
           >
             With over 5 years of experience in full-stack development, I specialize in crafting seamless digital experiences that push the boundaries of what's possible on the web.

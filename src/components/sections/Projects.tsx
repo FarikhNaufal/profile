@@ -66,6 +66,11 @@ const Projects: React.FC = () => {
 
 const ProjectCard: React.FC<{ project: typeof projects[0]; index: number }> = ({ project, index }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isTouch, setIsTouch] = React.useState(false);
+  
+  React.useEffect(() => {
+    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
   
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -77,7 +82,7 @@ const ProjectCard: React.FC<{ project: typeof projects[0]; index: number }> = ({
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (!cardRef.current || isTouch) return;
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -103,14 +108,16 @@ const ProjectCard: React.FC<{ project: typeof projects[0]; index: number }> = ({
         rotateX,
         rotateY,
         transformStyle: "preserve-3d",
+        willChange: "transform"
       }}
-      initial={{ opacity: 0, y: 50, scale: 0.9, filter: 'blur(10px)' }}
-      whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ 
         delay: index * 0.1,
-        duration: 0.8,
-        ease: [0.21, 0.47, 0.32, 0.98] 
+        type: isTouch ? "tween" : "spring",
+        ease: "easeOut",
+        duration: isTouch ? 0.4 : 0.8 
       }}
       className="group bg-surface-container-high rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl perspective-1000"
     >

@@ -8,10 +8,16 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const [isTouch, setIsTouch] = useState(false);
   const { scrollYProgress } = useScroll();
+  
+  useEffect(() => {
+    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: isTouch ? 200 : 100,
+    damping: isTouch ? 40 : 30,
     restDelta: 0.001
   });
 
@@ -32,7 +38,8 @@ const Navbar: React.FC = () => {
 
   return (
     <header 
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+      style={{ willChange: "padding, background-color" }}
+      className={`fixed top-0 z-50 w-full transition-[padding,background-color] duration-500 ${
         isScrolled ? 'glass shadow-none py-3' : 'bg-transparent py-5'
       }`}
     >
