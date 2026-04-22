@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Briefcase, Calendar, MapPin } from 'lucide-react';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const experiences = [
   {
@@ -47,11 +48,7 @@ const Experience: React.FC = () => {
 
 const ExperienceItem: React.FC<{ exp: typeof experiences[0], index: number }> = ({ exp, index }) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [isTouch, setIsTouch] = React.useState(false);
-  
-  React.useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const isMobile = useIsMobile();
   
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -63,7 +60,7 @@ const ExperienceItem: React.FC<{ exp: typeof experiences[0], index: number }> = 
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current || isTouch) return;
+    if (!cardRef.current || isMobile) return;
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -95,9 +92,9 @@ const ExperienceItem: React.FC<{ exp: typeof experiences[0], index: number }> = 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ 
-        type: isTouch ? "tween" : "spring",
+        type: isMobile ? "tween" : "spring",
         ease: "easeOut",
-        duration: isTouch ? 0.4 : 0.6, 
+        duration: isMobile ? 0.4 : 0.6, 
         delay: index * 0.1 
       }}
       className="relative flex flex-col lg:grid lg:grid-cols-12 gap-8 items-start perspective-1000"

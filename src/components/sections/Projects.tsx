@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ExternalLink, Code2 } from 'lucide-react';
 import { Github } from '../ui/BrandIcons';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const projects = [
   {
@@ -66,11 +67,7 @@ const Projects: React.FC = () => {
 
 const ProjectCard: React.FC<{ project: typeof projects[0]; index: number }> = ({ project, index }) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [isTouch, setIsTouch] = React.useState(false);
-  
-  React.useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const isMobile = useIsMobile();
   
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -82,7 +79,7 @@ const ProjectCard: React.FC<{ project: typeof projects[0]; index: number }> = ({
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current || isTouch) return;
+    if (!cardRef.current || isMobile) return;
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -115,9 +112,9 @@ const ProjectCard: React.FC<{ project: typeof projects[0]; index: number }> = ({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ 
         delay: index * 0.1,
-        type: isTouch ? "tween" : "spring",
+        type: isMobile ? "tween" : "spring",
         ease: "easeOut",
-        duration: isTouch ? 0.4 : 0.8 
+        duration: isMobile ? 0.4 : 0.8 
       }}
       className="group bg-surface-container-high rounded-2xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl perspective-1000"
     >

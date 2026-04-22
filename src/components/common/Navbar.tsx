@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { Sun, Moon, Menu, X, Terminal } from 'lucide-react';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 
 const Navbar: React.FC = () => {
@@ -8,16 +9,12 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const [isTouch, setIsTouch] = useState(false);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll();
-  
-  useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
 
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: isTouch ? 200 : 100,
-    damping: isTouch ? 40 : 30,
+    stiffness: isMobile ? 200 : 100,
+    damping: isMobile ? 40 : 30,
     restDelta: 0.001
   });
 

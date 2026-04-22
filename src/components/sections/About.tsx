@@ -1,13 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Code2, Database, Layout, Server } from 'lucide-react';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const About: React.FC = () => {
-  const [isTouch, setIsTouch] = React.useState(false);
-  
-  React.useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <section id="about" className="py-32 px-8 bg-surface-container-low relative border-t border-outline-variant/10">
@@ -19,9 +16,9 @@ const About: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ 
-              type: isTouch ? "tween" : "spring",
+              type: isMobile ? "tween" : "spring",
               ease: "easeOut",
-              duration: isTouch ? 0.4 : 0.8 
+              duration: isMobile ? 0.4 : 0.8 
             }}
           >
             <h2 className="font-headline text-5xl font-bold tracking-tight text-on-surface mb-4">
@@ -42,9 +39,9 @@ const About: React.FC = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ 
-              type: isTouch ? "tween" : "spring",
+              type: isMobile ? "tween" : "spring",
               ease: "easeOut",
-              duration: isTouch ? 0.4 : 0.8 
+              duration: isMobile ? 0.4 : 0.8 
             }}
             className="font-body text-2xl text-on-surface-variant leading-relaxed"
           >

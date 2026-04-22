@@ -2,13 +2,10 @@ import React from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import meImg from '../../assets/me.png';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const Hero: React.FC = () => {
-  const [isTouch, setIsTouch] = React.useState(false);
-  
-  React.useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 pb-32 px-6 overflow-hidden bg-surface">
@@ -16,18 +13,18 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 bg-grid-pattern opacity-50 pointer-events-none transition-opacity duration-500"></div>
       
       {/* Static background glow for a cleaner look */}
-      <div className={`absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--primary-container)_0%,transparent_70%)] pointer-events-none transition-opacity duration-500 ${isTouch ? 'opacity-10' : 'opacity-10 dark:opacity-20'}`}></div>
+      <div className={`absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--primary-container)_0%,transparent_70%)] pointer-events-none transition-opacity duration-500 ${isMobile ? 'opacity-10' : 'opacity-10 dark:opacity-20'}`}></div>
 
       <div className="max-w-7xl mx-auto w-full flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 relative z-10">
         
         {/* Photo Content - Hero V2 Layout */}
         <motion.div 
-          initial={{ opacity: 0, scale: isTouch ? 1 : 0.9, y: 20 }}
+          initial={{ opacity: 0, scale: isMobile ? 1 : 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ 
-            type: isTouch ? "tween" : "spring", 
+            type: isMobile ? "tween" : "spring", 
             ease: "easeOut",
-            duration: isTouch ? 0.4 : 0.8, 
+            duration: isMobile ? 0.4 : 0.8, 
             delay: 0.2 
           }}
           style={{ willChange: "transform, opacity" }}
@@ -43,7 +40,7 @@ const Hero: React.FC = () => {
             <img 
               src={meImg} 
               alt="Muhammad Farikh Naufal Tajuddin" 
-              className={`w-full h-full object-cover transition-transform duration-700 scale-105 group-hover:scale-100 ${isTouch ? 'opacity-100' : 'opacity-90 mix-blend-luminosity grayscale group-hover:grayscale-0 group-hover:mix-blend-normal'}`} 
+              className={`w-full h-full object-cover transition-transform duration-700 scale-105 group-hover:scale-100 ${isMobile ? 'opacity-100' : 'opacity-90 mix-blend-luminosity grayscale group-hover:grayscale-0 group-hover:mix-blend-normal'}`} 
             />
             
             {/* Status Badge (Desktop only) */}
@@ -62,12 +59,12 @@ const Hero: React.FC = () => {
 
         {/* Text Content - Hero V2 Layout */}
         <motion.div 
-          initial={{ opacity: 0, x: isTouch ? 0 : -30, y: isTouch ? 20 : 0 }}
+          initial={{ opacity: 0, x: isMobile ? 0 : -30, y: isMobile ? 20 : 0 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
           transition={{ 
-            type: isTouch ? "tween" : "spring",
+            type: isMobile ? "tween" : "spring",
             ease: "easeOut",
-            duration: isTouch ? 0.4 : 0.7 
+            duration: isMobile ? 0.4 : 0.7 
           }}
           style={{ willChange: "transform, opacity" }}
           className="flex flex-col justify-center gap-8 lg:gap-10 order-2 lg:order-1 text-left items-start"
@@ -99,7 +96,7 @@ const Hero: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mt-4 w-full sm:w-auto">
             <MagneticButton 
               href="#projects" 
-              isTouch={isTouch}
+              isMobile={isMobile}
               className="group bg-primary text-on-primary font-headline font-bold py-4 px-10 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(129,233,255,0.2)] active:scale-[0.98] w-full sm:w-auto"
             >
               Explore My Work
@@ -107,7 +104,7 @@ const Hero: React.FC = () => {
             </MagneticButton>
             <MagneticButton 
               href="#contact" 
-              isTouch={isTouch}
+              isMobile={isMobile}
               className="px-8 py-4 text-on-surface font-headline font-bold text-center hover:text-primary transition-colors hover:bg-on-surface/5 rounded-2xl"
             >
               Let's Talk
@@ -119,14 +116,14 @@ const Hero: React.FC = () => {
   );
 };
 
-const MagneticButton: React.FC<{ children: React.ReactNode, className: string, href: string, isTouch?: boolean }> = ({ children, className, href, isTouch }) => {
+const MagneticButton: React.FC<{ children: React.ReactNode, className: string, href: string, isMobile?: boolean }> = ({ children, className, href, isMobile }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 150, damping: 15 });
   const springY = useSpring(y, { stiffness: 150, damping: 15 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (isTouch) return;
+    if (isMobile) return;
     const { clientX, clientY, currentTarget } = e;
     const { left, top, width, height } = currentTarget.getBoundingClientRect();
     const centerX = left + width / 2;

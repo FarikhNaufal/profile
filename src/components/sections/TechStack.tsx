@@ -10,6 +10,7 @@ import {
   Terminal,
   Globe
 } from 'lucide-react';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const techItems = [
   { name: 'JavaScript', icon: Code, color: 'text-primary', category: 'Frontend' },
@@ -23,11 +24,7 @@ const techItems = [
 ];
 
 const TechStack: React.FC = () => {
-  const [isTouch, setIsTouch] = React.useState(false);
-  
-  React.useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <section id="stack" className="py-32 px-8 bg-surface relative">
@@ -38,9 +35,9 @@ const TechStack: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ 
-              type: isTouch ? "tween" : "spring",
+              type: isMobile ? "tween" : "spring",
               ease: "easeOut",
-              duration: isTouch ? 0.4 : 0.8 
+              duration: isMobile ? 0.4 : 0.8 
             }}
             className="font-headline text-5xl font-bold tracking-tight text-on-surface mb-4"
           >
@@ -61,9 +58,9 @@ const TechStack: React.FC = () => {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ 
                 delay: index * 0.05,
-                type: isTouch ? "tween" : "spring",
+                type: isMobile ? "tween" : "spring",
                 ease: "easeOut",
-                duration: isTouch ? 0.3 : 0.5
+                duration: isMobile ? 0.3 : 0.5
               }}
               whileHover={{ y: -10, scale: 1.05, transition: { duration: 0.2 } }}
               className="flex flex-col items-center justify-center p-8 bg-surface-container-low rounded-2xl hover:bg-surface-container-high transition-all border border-outline-variant/10 hover:border-primary/20 group cursor-default shadow-sm hover:shadow-xl"
